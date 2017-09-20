@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>maps</title>
+    <style>
+        #map-canvas {
+            width: 500px;
+            height: 500px;
+        }
+    
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCE2ZGHyOLQ6rXW5l5RlELB08ekZ_1t0ks&region=GB" type="text/javascript"></script>
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyB6KlCFUQlRwVj-nyXxd6W0rfilBe12Q&libararies=places" type="text/javascript"></script>-->
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXBkXPFoyISG0h34-q7NAob8xm6pLm1_o&callback=initMap" type="text/javascript"></script>-->
+</head>
+<body>
+    
+    <div id="map-canvas">
+        
+    </div><button id="getdirection">Get Direction</button>
+    <script>
+        
+     var directiondisplay  = new google.maps.DirectionsRenderer();
+        var directionservice  = new google.maps.DirectionsService();
+        var maps;
+        var first = new google.maps.LatLng(28.412839,77.041664);
+        var second = new google.maps.LatLng(28.427017,77.037505);
+        var mapoptions = {
+            zoom : 14,
+            center: first
+        };
+        maps = new google.maps.Map(document.getElementById('map-canvas'), mapoptions);
+        directiondisplay.setMap(maps);
+        function calculatedistance(){
+            var request = {
+                origin: first,
+                destination: second,
+                travelMode :'DRIVING',
+                 optimizeWaypoints: true,
+                provideRouteAlternatives: true,
+                /*waypoints[]: DirectionsWaypoint,*/
+            };
+            directionservice.route(request,function(result,status){
+                if(status=="OK"){
+                    directiondisplay.setDirections(result);
+                }
+                console.log(result,status);
+            });
+            
+        }
+        document.getElementById('getdirection').onclick=function(){
+            calculatedistance();
+        }
+        
+    </script>
+</body>
+</html>
